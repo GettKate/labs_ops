@@ -150,10 +150,14 @@ int main(int argc, char **argv) {
     struct timeval start_time;
     gettimeofday(&start_time, NULL);
     
+    void alarm_signal(int var)
+    {
+        kill(0, SIGKILL);
+    }
+
     if (timeout != -1) {
-        printf("\nSet allarm on %d sec\n", timeout);
+        signal(SIGALRM, alarm_signal);
         alarm(timeout);
-        signal(SIGALRM, PSIGKILL);
     }
 
     int active_child_processes = 0;
